@@ -5,6 +5,7 @@ namespace twisted\autoclearlagg;
 
 use pocketmine\entity\Creature;
 use pocketmine\entity\Human;
+use pocketmine\entity\object\ExperienceOrb;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
@@ -29,12 +30,14 @@ class AutoClearLagg extends PluginBase{
     private $clearItems;
     /** @var bool */
     private $clearMobs;
+    /** @var bool */
+    private $clearXpOrbs;
+
     /** @var string[] */
     private $exemptEntities;
 
     /** @var string[] */
     private $messages;
-
     /** @var int[] */
     private $broadcastTimes;
 
@@ -58,6 +61,7 @@ class AutoClearLagg extends PluginBase{
         $clear = $config["clear"] ?? [];
         $this->clearItems = (bool) ($clear["items"] ?? false);
         $this->clearMobs = (bool) ($clear["mobs"] ?? false);
+        $this->clearXpOrbs = (bool) ($clear["xp-orbs"] ?? false);
         if(!is_array($clear["exempt"] ?? [])){
             $this->getLogger()->error("Config error: clear.exempt attribute must an array");
             $this->getServer()->getPluginManager()->disablePlugin($this);
@@ -101,6 +105,9 @@ class AutoClearLagg extends PluginBase{
                                 $entity->flagForDespawn();
                                 ++$entitiesCleared;
                             }
+                        }else if($this->clearXpOrbs && $entity instanceof ExperienceOrb){
+                            $entity->flagForDespawn();
+                            ++$entitiesCleared;
                         }
                     }
                 }
