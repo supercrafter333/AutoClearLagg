@@ -117,7 +117,7 @@ class AutoClearLagg extends PluginBase{
 
                 $this->seconds = $this->interval;
             }else if(in_array($this->seconds, $this->broadcastTimes) && $this->messages[self::LANG_TIME_LEFT] !== ""){
-                $this->getServer()->broadcastMessage(str_replace("{SECONDS}", $this->seconds, $this->messages[self::LANG_TIME_LEFT]));
+                $this->getServer()->broadcastMessage(str_replace("{SECONDS}", (string)$this->seconds, $this->messages[self::LANG_TIME_LEFT]));
             }
         }), 20);
     }
