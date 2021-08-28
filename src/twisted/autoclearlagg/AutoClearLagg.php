@@ -112,7 +112,7 @@ class AutoClearLagg extends PluginBase{
                     }
                 }
                 if($this->messages[self::LANG_ENTITIES_CLEARED] !== ""){
-                    $this->getServer()->broadcastMessage(str_replace("{COUNT}", $entitiesCleared, $this->messages[self::LANG_ENTITIES_CLEARED]));
+                    $this->getServer()->broadcastMessage(str_replace("{COUNT}", (string)$entitiesCleared, $this->messages[self::LANG_ENTITIES_CLEARED]));
                 }
 
                 $this->seconds = $this->interval;
